@@ -1,0 +1,17 @@
+1. Choice of System: 
+Since HTML coding largely focuses on the front-end interface, choosing back-end task scheduling via cron jobs or Task Scheduler is necessary for automating periodic chores like downloading ISINs.
+
+2. Why Cron Jobs: Cron jobs are popular because they are straightforward and dependable, providing a tried-and-true method for automating repetitive operations without depending on the front end of the web site.
+
+3. Reliability: Cron jobs are incredibly dependable and unaffected by front-end problems, executing scripts or commands at precise intervals, which makes them perfect for tasks like scheduled data downloads.
+
+4. Scaling: 
+Although cron jobs are appropriate for many applications, they might not be able to handle the needs of complicated scheduling in larger systems. For extensive scalability, take into account cutting-edge solutions like message queues and task scheduling frameworks.
+
+5.Limitations: 
+Especially in dispersed contexts. To handle more complex needs, they might need additional infrastructure, so it's critical to avoid work duplication in multi-server configurations.
+
+6. Recommendation for Scale:
+ It is advised to combine cron jobs with specific task scheduling systems for significant growth. As your application develops, using cron jobs to start message queue processes gives improved scalability and fault tolerance.
+
+PS - (I have learned from various docs and artifacts about the node-cron, because it is easy and much understandable, though its slow, there are many other scaping systems which are complex in nature, hence node-cron is easier to use. )

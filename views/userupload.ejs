@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .wrap {
+           margin: 0 auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    height: 675px;
+    width: 695px;
+        }
+
+        .drag {
+            border: 2px dashed #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    padding: 20px;
+    display: block;
+    width: 646px;
+    height: 396px;
+        }
+
+        .preview {
+            max-width: 100%;
+            max-height: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-button button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button{
+            background-color: purple;
+            color: #000000;
+            border: solid black 1px;
+            margin-top: 6px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        button:hover  {
+            background-color: white;
+            border: solid 1px purple;
+        }
+        a{
+            color: white;
+            text-emphasis: none;
+        }
+        a:hover{
+            color: purple;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="messages" class="hidden"><%= messages %></h1>
+        <div class="wrap"> 
+         <img src="/<%= post.image.path.replace(/\\/g, '/') %>" alt="<%= post.name %>" style="width: 94px;
+         height: 99px;">
+  <h4>App name: <%= post.name %></h4>
+  <h5 style="background-color: rgb(100, 183, 100); width: 80px; padding: 8px;" > <%= post.point%> Points</h5>
+  <form id="upload-form" action="/useruploadimage/<%= post._id %>" method="post" enctype="multipart/form-data">
+    <label for="image-upload" id="image-drag" class="drag">
+        <img id="image-preview" src="#" alt="Click or drag image here" class="preview">
+    </label>
+    <input type="file" name="image" id="image-upload" accept="image/*" required>
+    <button type="submit">upload image</button>
+</form>
+
+<script>
+    const imageUpload = document.getElementById('image-upload')
+    const imageDrag = document.getElementById('image-drag')
+    const imagePreview = document.getElementById('image-preview')
+    const uploadForm = document.getElementById('upload-form')
+    const uploadButton = document.querySelector('.form-button button')
+
+
+    const messages = document.getElementById('messages')
+
+    
+
+    imageUpload.addEventListener('change', function () {
+      if (imageUpload.files.length > 0) {
+        const file = imageUpload.files[0]
+        const imageUrl = URL.createObjectURL(file)
+        imagePreview.src = imageUrl
+
+
+        // const file = imageUpload.files[1]
+        // const imageUrl = URL.createObjectURL(file)
+        // imagePreview = imageUrl
+
+
+        imageDrag.style.border = 'none'
+      }
+    })
+  
+  
+    imageDrag.addEventListener('dragover', function (e) {
+      e.preventDefault()
+      imageDrag.style.border = '2px dashed #000';
+    })
+  
+    imageDrag.addEventListener('dragleave', function () {
+      imageDrag.style.border = '2px dashed #ccc'
+    });
+  
+    imageDrag.addEventListener('drop', function (e) {
+      e.preventDefault()
+
+      imageDrag.style.border = 'none'
+  
+      if (e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0]
+        const imageUrl = URL.createObjectURL(file)
+        imagePreview.src = imageUrl
+      }
+    })
+  
+    //form submission -- >
+   uploadButton.addEventListener('click', function () {
+        messages.classList.remove('hidden')
+      });
+
+      
+      uploadForm.addEventListener('submit', function (e) {
+        e.preventDefault()
+
+        const formData = new FormData(uploadForm)
+
+        // Send the image using AJAX to the correct route
+        fetch('/useruploadimage/<%= post._id %>', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Image uploaded:', data)
+          
+
+          messages.innerHTML = "Image uploaded successfully";
+         
+        })
+        .catch(error => {
+          console.error('Error occured: ', error)
+        })
+      })
+
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(133, 135, 137);
+        }
+        header{
+            display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+
+        }
+          .container{
+    padding: 1em;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around
+  }
+  .left{
+    height: 300px;
+  padding: 14px;
+  }
+  .right{
+    width: 100%;
+    height: 800px;
+    background-color: aliceblue;
+
+    
+  }
+  .left button{
+    margin-top: 30px;
+  width: 75px;
+  border: solid 1px #b0f;
+  color: #a802e4;
+  background-color: white;
+  padding: 7px;
+  cursor: pointer;
+  }
+  .left .btn2{
+    background-color: #a802e4;
+    color: aliceblue;
+  }
+
+  .form{
+    width: 100%;
+    height: 800px;
+    
+  }
+
+  .inputt , .selectt{
+    display: flex;
+    justify-content: space-around;
+    margin: 30px;
+    margin-top: 50px;
+
+  }
+  .inputt{
+    margin-top: 250px;
+  }
+  input , select{
+        width: 25%;
+        padding: 10px;
+        
+  }
+
+  .bttn{
+    display: grid;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  }
+
+  .wrap {
+    height: 128px;
+    display: flex;
+    justify-content: space-around;
+  background-color: gray;
+  padding: 10px;
+  margin: 4%;
+  }
+  img{
+    height: 120px;
+    width: 127px;
+  }
+    </style>
+</head>
+
+<body>
+    <header>Hello 
+      
+        <form method="post" action="/logout" >
+            <button type="submit">Logout</button>
+        </form>
+    </header>
+    <div class="container">
+        <div class="left">
+            <a href="/userdashboard"> <button id="home" class="toggle-button" data-target="list">Home</button></a>
+            <a href="/clientuploaded"><button class="btn2 toggle-button" data-target="form">Yours uploaded</button></a>
+            <a href="/profile"><button class="btn3 toggle-button" data-target="form">Profile</button></a>
+        </div>
+        <div class="right">
+            <h3 style="margin-left: 10px;">Task Completed/process: </h3>
+            <div class="list">
+                <% userupload.forEach(function (app) { %>
+                  <div class="wrap"> 
+                    <h6>Your Image:</h6>
+                   <img src="/<%= app.userImage.path.replace(/\\/g, '/') %>" alt="<%= app.name %>">
+                   <h6>Admin Image:</h6>
+                   <img src="/<%= app.adminImage.path.replace(/\\/g, '/') %>" alt="<%= app.name %>">
+            <h4><%= app.appName %></h4>
+            <h5> <%= app.point%> Points</h5>
+            
+            
+                  </div>
+                <% }) %> 
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>

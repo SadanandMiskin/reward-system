@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Document</title>
+    <style>
+       body {
+            background-color: rgb(133, 135, 137);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background-color: rgb(255, 255, 255);
+            padding: 10px;
+        }
+
+        .container {
+            padding: 1em;
+            display: flex;
+            align-items: stretch;
+            justify-content: space-around;
+        }
+
+        .left {
+            height: 300px;
+            padding: 14px;
+        }
+
+        .right {
+            width: 100%;
+            height: 100%;
+            background-color: aliceblue;
+        }
+
+        .left button {
+            margin-top: 30px;
+            width: 75px;
+            border: solid 1px #b0f;
+            color: #a802e4;
+            background-color: white;
+            padding: 7px;
+            cursor: pointer;
+        }
+
+        .left .btn2 {
+            background-color: #a802e4;
+            color: aliceblue;
+        }
+
+        .form {
+            width: 100%;
+            height: 800px;
+            margin-top: -108px;
+        }
+
+        .inputt, .selectt {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px;
+            margin-top: 50px;
+        }
+
+        .inputt {
+            margin-top: 250px;
+        }
+
+        input, select {
+            width: 25%;
+            padding: 10px;
+        }
+
+        .bttn {
+            display: grid;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #cacaca;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .wrap img {
+          width: 102%;
+    height: 275px;
+    object-fit: cover;
+            
+        }
+
+        .wrap h4 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .wrap h5 {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>Hello, Admin
+        <form method="post" action="/logout" >
+            <button type="submit">Logout</button>
+        </form>
+    </header>
+    <div class="container">
+        <div class="left">
+            <button id="home" class="toggle-button" data-target="list">Home</button>
+            <button class="btn2 toggle-button" data-target="form">Add Apps</button>
+            <a href="/admin">  <button class="btn2 toggle-button" data-target="form">Uploaded Apps</button></a>
+        </div>
+        <div class="right">
+            <form class="form" method="post" action="/adminpost"  enctype="multipart/form-data" style="display: none;">
+                <label style="position: relative; left: 47%; top: 120px;">Select image</label>
+                <input type="file" name="image" accept="image/*" style="position: relative; left: 37%; top: 140px;" required>
+                <img id="image-preview" src="#" alt="Image Preview" style="max-width: 100%; max-height: 200px; display: none; position: relative; top:169px; left: 45%;">
+
+            
+               <div class="inputt">
+                <input type="text" name="name" placeholder="App Name">
+                <input type="text" name="link" placeholder="App link">
+               </div>
+                <div class="selectt">
+                    <select id="categorySelect" name="category">
+                        <option value="communication" name="communication">Communication</option>
+                        <option value="entertainment" name="entertainment">Entertainment</option>
+                        <option value="events" name="events">Events</option>
+                        <option value="fitness" name="fitness">Health & Fitness</option>
+                        <option value="social" name="social">Social</option>
+                        
+                    </select>
+                    
+                    
+                    <select id="subcategorySelect" name="subcategory">
+                    </select>
+                </div>
+                <div class="bttn"> 
+                    <input type="text" name="point" placeholder="Add points" style="width: auto;
+                    margin-bottom: 50px;  background-color: rgb(88, 211, 6);">
+                    <button type="submit" style="padding: 10px; background-color: rgb(211, 194, 6); color: rgb(0, 0, 0);">Submit</button>
+                </div>
+            </form>
+            <div class="list">
+              <% userupload.forEach(function (app) { %>
+                <div class="wrap"> 
+                  <form action="/updatepoints/<%= app._id %>" method="post">
+                    
+                   <span style="color: #5f5f5f;">App Name:</span> <h4> <%= app.appName %></h4>
+                    <span style="color: #5f5f5f;">Points:</span><h5> <%= app.point%> Points</h5>
+                    
+                  <!-- <h6>email: <%= app.userEmail %></h6> -->
+
+                  
+                  <img src="/<%= app.adminImage.path.replace(/\\/g, '/') %>" alt="<%= app.name %>" style="width: 102%;
+                  height: 275px;
+                  object-fit: cover;">
+                  <h6>User Image:</h6>
+                 <img src="/<%= app.userImage.path.replace(/\\/g, '/') %>" alt="<%= app.name %>">
+               
+                 <h5>By: <%= app.userName %></h5>
+                 <h6>Email: <%= app.userEmail %></h6>
+
+                  <button type="submit" style="background-color: #a802e4; color: white; padding: 9px; cursor: pointer;">Approve</button>
+                  </form>
+          
+                </div>
+              <% }) %> 
+          </div>
+        </div>
+    </div>
+    <script src="category.js"></script>
+    <script>
+        const toggleButtons = document.querySelectorAll(".toggle-button")
+        toggleButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                const target = button.getAttribute("data-target")
+                const form = document.querySelector(".form")
+                const list = document.querySelector(".list")
+
+                if (target === "form") {
+                    form.style.display = "block"
+                    list.style.display = "none"
+                } else if (target === "list") {
+                    form.style.display = "none"
+                    list.style.display = "block"
+                }
+            });
+        });
+        const approveButtons = document.querySelectorAll(".list button[type='submit']")
+        approveButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                
+              
+
+                const wrap = button.closest(".wrap");
+              
+                wrap.style.display = "none"
+                wrap.remove()
+            });
+        });
+        const imageUpload = document.querySelector('input[type="file"]')
+    const imagePreview = document.getElementById('image-preview')
+
+    imageUpload.addEventListener('change', function () {
+        if (imageUpload.files && imageUpload.files[0]) {
+            const reader = new FileReader()
+
+            reader.onload = function (e) {
+                imagePreview.style.display = 'block'
+                imagePreview.src = e.target.result
+            };
+
+            reader.readAsDataURL(imageUpload.files[0])
+        }
+    });
+
+    </script>
+</body>
+</html>

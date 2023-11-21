@@ -13,7 +13,11 @@ const userUpload = new mongoose.Schema({
         imageName: String,
             path: String
     },
-    point: Number
+    point: Number,
+    approve: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const userImageModel = mongoose.model('userImageModel' , userUpload)

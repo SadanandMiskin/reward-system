@@ -159,7 +159,9 @@ const isClient = (req, res, next) => {
         next()
     } else res.redirect('/login')
 }
-
+app.get('/' ,(req,res)=>{
+    res.redirect('/login')
+})
 app.get('/login', (req, res) => {
     res.render('login')
 })
@@ -192,11 +194,19 @@ app.post('/login', async (req, res) => {
 
 
 app.get('/dashboard', Auth, async (req, res) => {
-    const apps = await userImageModel.find()
-    const appsList = [...apps]
+    const userApps = await userImageModel.find()
+    const appsList = [...userApps]
    
+
+   
+//    if(adminm.image == apps.adminImage && adminm.point == userm.points){
+//     return res.render('admindashboard' , {
+//         a: true,
+//         userupload: appsList
+//     })
+//    }
     res.render('admindashboard', {
-        userupload: appsList
+        userupload: appsList,
     })
 
 })
@@ -271,11 +281,13 @@ app.get('/profile', isClient, async (req, res) => {
 app.get('/userdashboard', isClient, async (req, res) => {
     const apps = await adminModel.find()
     const appsList = [...apps]
-
-    res.render('client', {
-        appsList: appsList,
-        userr: userr
-    })
+    const userapps = await userImageModel.find({
+        userId: req.session.usr._id
+    });
+    
+    
+    res.render('client', { appsList: appsList, userr: userr, useruploads: userapps });
+    
 
 })
 var post = ""
@@ -286,7 +298,7 @@ app.post('/userupload/:id', async (req, res) => {
 })
 
 app.get('/userupload', isClient, async (req, res) => {
-
+    
     res.render('userupload', {
         post,
         messages: messages
@@ -343,6 +355,10 @@ app.post('/updatepoints/:id', async (req, res) => {
     const app = await userImageModel.findById(appId)
     const pointsToAdd = app.point
     const userId = app.userId
+     await userImageModel.findOneAndUpdate({_id: appId}, {$set: {
+        approve: true
+    }})
+    
 
 
     //const userId = appId
@@ -351,6 +367,7 @@ app.post('/updatepoints/:id', async (req, res) => {
     const user = await userModel.findById(userId)
     user.points += pointsToAdd
     await user.save()
+    
     res.redirect('/dashboard')
 
 

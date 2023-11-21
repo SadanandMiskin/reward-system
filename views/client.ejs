@@ -132,8 +132,14 @@
             <h5><a href="<%= app.link %>"><%= app.link %></a></h5>
             </div>
             <form action="/userupload/<%= app._id %>" method="post">
-                <button type="submit" class="bbttnn">Upload Image</button>
-            </form>
+              <% const uploadedImage = useruploads.find(userapp => userapp.appName === app.name); %>
+              
+              <% if (uploadedImage) { %>
+                  <h4 style="background-color: red; padding: 2px;">Already uploaded </h4>
+              <% } else { %>
+                  <button type="submit" class="bbttnn">Upload Image</button>
+              <% } %>
+          </form>
             
                   </div>
                 <% }) %> 

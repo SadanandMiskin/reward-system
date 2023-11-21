@@ -11,6 +11,10 @@ const adminUpload = new mongoose.Schema({
     point: Number,
     category: String,
     subCategory: String,
+    approve: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const adminModel = mongoose.model('adminModel', adminUpload)

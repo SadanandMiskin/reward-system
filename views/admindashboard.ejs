@@ -183,7 +183,11 @@
                  <h5>By: <%= app.userName %></h5>
                  <h6>Email: <%= app.userEmail %></h6>
 
-                  <button type="submit" style="background-color: #a802e4; color: white; padding: 9px; cursor: pointer;">Approve</button>
+                 <% if(app.approve) {%>
+                    <h4 style="background-color: green; padding: 3px; color: whitesmoke;">Already done</h4>
+                    <% } else{ %>
+                        <button type="submit" style="background-color: #a802e4; color: white; padding: 9px; cursor: pointer; ">Approve</button>
+                        <% } %>
                   </form>
           
                 </div>
@@ -209,18 +213,18 @@
                 }
             });
         });
-        const approveButtons = document.querySelectorAll(".list button[type='submit']")
-        approveButtons.forEach(button => {
-            button.addEventListener("click", function() {
+        // const approveButtons = document.querySelectorAll(".list button[type='submit']")
+        // approveButtons.forEach(button => {
+        //     button.addEventListener("click", function() {
                 
               
 
-                const wrap = button.closest(".wrap");
+        //         const wrap = button.closest(".wrap");
               
-                wrap.style.display = "none"
-                wrap.remove()
-            });
-        });
+        //         wrap.style.display = "none"
+        //         wrap.remove()
+        //     });
+        // });
         const imageUpload = document.querySelector('input[type="file"]')
     const imagePreview = document.getElementById('image-preview')
 

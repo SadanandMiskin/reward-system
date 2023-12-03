@@ -7,6 +7,11 @@
 
 The online application known as the Android App Reward System has two key parts:
 
+### System Design 
+![Picture1](https://github.com/SadanandMiskin/reward-system/assets/119523972/1cfc2355-78de-4d43-aae5-8396ed4979f1)
+
+
+
 ### Admin Facing 
 The website's admin-facing section is made to allow administrators to add Android apps and reward users with points for downloading those apps. Every 24 hours, it crawls the Play Store to retrieve the app's category. Key elements consist of:
 - Including Android apps and the related information.
